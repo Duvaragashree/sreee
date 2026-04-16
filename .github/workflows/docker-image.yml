@@ -1,0 +1,36 @@
+name: Build Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Install Docker
+      # Note: Docker is pre-installed on 'ubuntu-latest', but this ensures 
+      # the latest version is available if you have specific requirements.
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+
+      # Step 3: Verify Docker installation
+      - name: Verify Docker version
+        run: docker --version
+
+      # Step 4: Build Docker image
+      # Ensure you have a 'Dockerfile' in your root directory
+      - name: Build Docker image
+        run: docker build -t my-app-image .
+
+      # Optional: List images to confirm build success
+      - name: List Docker images
+        run: docker images
