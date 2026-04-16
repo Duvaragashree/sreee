@@ -1,0 +1,26 @@
+name: Docker Build and Verify
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step B: Install and Verify Docker
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+
+      - name: Verify Docker version
+        run: docker --version
+
+      # Step A: Build the Image
+      - name: Build Docker image
+        run: docker build -t my-app-image:${{ github.sha }} .
